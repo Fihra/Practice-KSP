@@ -34,7 +34,7 @@ on init
 
     declare ui_button $resetMe
     set_text($resetMe, "Reset ADSR")
-    move_control_px($resetMe, 50, 70)
+    move_control_px($resetMe, 50, 80)
 
     declare ui_knob $attacker( 0, 1000000, 1)
     move_control_px($attacker, 150, 70)
@@ -63,6 +63,15 @@ on init
     set_knob_label( $sustainer, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
     make_persistent($sustainer)
 
+    declare ui_knob $releaser( 0, 1000000, 1 )
+    move_control_px( $releaser, 450, 70 )
+    set_text( $releaser, "Rel Dmg" )
+    set_knob_unit( $releaser, $KNOB_UNIT_MS )
+    set_knob_defval( $releaser, 0 )
+    $releaser := get_engine_par( $ENGINE_PAR_RELEASE, 0, 0, -1 )
+    set_knob_label( $releaser, get_engine_par_disp( $ENGINE_PAR_RELEASE, 0, 0, -1 ) )
+    make_persistent( $releaser )
+
 end on
 
 on ui_control($knobEQGain1)
@@ -80,6 +89,18 @@ on ui_control($knobEQGain3)
     set_knob_label($knobEQGain3, get_engine_par_disp( $ENGINE_PAR_GAIN3, 0, 0, -1))
 end on
 
+on ui_control( $resetMe )
+    set_engine_par( $ENGINE_PAR_ATTACK, 0, 0, 0, -1 )
+    set_engine_par( $ENGINE_PAR_DECAY, 0, 0, 0, -1 )
+    set_engine_par( $ENGINE_PAR_SUSTAIN, 0, 0, 0, -1 )
+    set_engine_par( $ENGINE_PAR_RELEASE, 0, 0, 0, -1 )
+    set_knob_label($attacker, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ))
+    set_knob_label($decayer, get_engine_par_disp( $ENGINE_PAR_DECAY, 0, 0, -1 ))
+    set_knob_label($sustainer, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ))
+    set_knob_label($releaser, get_engine_par_disp( $ENGINE_PAR_RELEASE, 0, 0, -1 ))
+    message("RESETING")
+end on
+
 on ui_control( $attacker )
     set_engine_par($ENGINE_PAR_ATTACK, $attacker, 0,0,-1)
     set_knob_label($attacker, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ))
@@ -93,4 +114,9 @@ end on
 on ui_control( $sustainer )
     set_engine_par( $ENGINE_PAR_SUSTAIN, $sustainer, 0, 0, -1 )
     set_knob_label( $sustainer, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
+end on
+
+on ui_control( $releaser )
+    set_engine_par( $ENGINE_PAR_RELEASE, $releaser, 0, 0, -1 )
+    set_knob_label( $releaser, get_engine_par_disp( $ENGINE_PAR_RELEASE, 0, 0, -1 ) )
 end on

@@ -1,0 +1,53 @@
+on init
+    make_perfview
+    message( "" )
+    set_script_title("Practice KSP")
+    set_ui_height_px(200)
+
+    declare ui_button $Button
+    set_text($Button, "Press me harder")
+
+    declare ui_knob $knob1 (0, 100, 1)
+    set_knob_label( $knob1, "Twist it!" )
+
+    declare ui_label $label1(2, 2)
+    set_text( $label1, "Show me the goods" )
+    add_text_line( $label1, "goodies" )
+
+    declare ui_level_meter $leftMeter
+    declare const $leftID := get_ui_id( $leftMeter )
+    attach_level_meter( $leftID, -1, -1, 0, -1 )
+
+    declare ui_level_meter $rightMeter
+    declare const $rightID := get_ui_id($rightMeter)
+    attach_level_meter( $rightID, -1, -1, 1, -1 )
+
+    declare ui_label $pizzaLabel( 1, 1 )
+    move_control_px( $pizzaLabel, 150, 3 )
+    set_text( $pizzaLabel, "Pizza Toppings" )
+
+    declare ui_menu $menu
+    add_menu_item( $menu, "cheese", 0 )
+    add_menu_item($menu, "pepperoni", 1)
+    add_menu_item($menu, "veggie", 2)
+
+    declare ui_waveform $waver( 6, 6 )
+    attach_zone($waver, find_zone($leftID), $UI_WAVEFORM_USE_SLICES)
+
+    { moreFader(Close)
+    moreFader(Mid)
+    moreFader(Far) }
+end on
+
+on ui_control( $Button)
+    set_text($Button, "Oooh Harder")
+end on
+
+on note
+    message($EVENT_NOTE)
+end on
+
+on release
+    message($EVENT_ID)
+    { message("Released") }
+end on

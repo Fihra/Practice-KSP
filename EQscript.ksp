@@ -1,0 +1,64 @@
+on init
+    make_perfview
+    set_script_title( "First EQ UI" )
+    set_ui_height_px( 150 )
+    message( "" )
+
+    declare $half1 := 1000000/2
+    declare $half2 := 1000000/2
+    declare $half3 := 1000000/2
+
+    declare ui_knob $knobEQGain1(0, 1000000, 1)
+    move_control_px( $knobEQGain1, 100, 4)
+    set_text( $knobEQGain1, "Low")
+    set_knob_unit( $knobEQGain1, $KNOB_UNIT_DB)
+    set_knob_defval( $knobEQGain1, $half1)
+    set_knob_label( $knobEQGain1, get_engine_par_disp( $ENGINE_PAR_GAIN1, 0, 0, -1))
+    make_persistent($knobEQGain1)
+
+    declare ui_knob $knobEQGain2(0, 1000000, 1)
+    move_control_px( $knobEQGain2, 200, 4)
+    set_text( $knobEQGain2, "Mid")
+    set_knob_unit( $knobEQGain2, $KNOB_UNIT_DB)
+    set_knob_defval( $knobEQGain2, $half2)
+    set_knob_label( $knobEQGain2, get_engine_par_disp( $ENGINE_PAR_GAIN2, 0, 0, -1))
+    make_persistent($knobEQGain2)
+
+    declare ui_knob $knobEQGain3(0, 1000000, 1)
+    move_control_px( $knobEQGain3, 300, 4)
+    set_text( $knobEQGain3, "High")
+    set_knob_unit( $knobEQGain3, $KNOB_UNIT_DB)
+    set_knob_defval( $knobEQGain3, $half3)
+    set_knob_label( $knobEQGain3, get_engine_par_disp( $ENGINE_PAR_GAIN3, 0, 0, -1))
+    make_persistent($knobEQGain3)
+
+    declare ui_knob $attacker( 0, 1000000, 1)
+    move_control_px($attacker, 150, 70)
+    set_text($attacker, "Atk Dmg")
+    set_knob_unit( $attacker, $KNOB_UNIT_MS)
+    set_knob_defval( $attacker, 1000000/2 )
+
+    $attacker := get_engine_par( $ENGINE_PAR_ATTACK, 0, 0, -1 )
+    set_knob_label( $attacker, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ) )
+    make_persistent($attacker)
+end on
+
+on ui_control($knobEQGain1)
+    set_engine_par( $ENGINE_PAR_GAIN1, $knobEQGain1, 0, 0, -1)
+    set_knob_label($knobEQGain1, get_engine_par_disp( $ENGINE_PAR_GAIN1, 0, 0, -1))
+end on
+
+on ui_control($knobEQGain2)
+    set_engine_par( $ENGINE_PAR_GAIN2, $knobEQGain2, 0, 0, -1)
+    set_knob_label($knobEQGain2, get_engine_par_disp( $ENGINE_PAR_GAIN2, 0, 0, -1))
+end on
+
+on ui_control($knobEQGain3)
+    set_engine_par( $ENGINE_PAR_GAIN3, $knobEQGain3, 0, 0, -1)
+    set_knob_label($knobEQGain3, get_engine_par_disp( $ENGINE_PAR_GAIN3, 0, 0, -1))
+end on
+
+on ui_control( $attacker )
+    set_engine_par($ENGINE_PAR_ATTACK, $attacker, 0,0,-1)
+    set_knob_label($attacker, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ))
+end on

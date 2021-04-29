@@ -54,6 +54,15 @@ on init
     set_knob_label( $decayer, get_engine_par_disp( $ENGINE_PAR_DECAY, 0, 0, -1 ) )
     make_persistent($decayer)
 
+    declare ui_knob $sustainer( 0, 1000000, 1 )
+    move_control_px( $sustainer, 350, 70 )
+    set_text($sustainer, "Sus Dmg")
+    set_knob_unit( $sustainer, $KNOB_UNIT_MS )
+    set_knob_defval( $sustainer, 0 )
+    $sustainer := get_engine_par( $ENGINE_PAR_SUSTAIN, 0, 0, -1 )
+    set_knob_label( $sustainer, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
+    make_persistent($sustainer)
+
 end on
 
 on ui_control($knobEQGain1)
@@ -79,4 +88,9 @@ end on
 on ui_control( $decayer )
     set_engine_par( $ENGINE_PAR_DECAY, $decayer, 0, 0, -1 )
     set_knob_label( $decayer, get_engine_par_disp( $ENGINE_PAR_DECAY, 0, 0, -1 ) )
+end on
+
+on ui_control( $sustainer )
+    set_engine_par( $ENGINE_PAR_SUSTAIN, $sustainer, 0, 0, -1 )
+    set_knob_label( $sustainer, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
 end on

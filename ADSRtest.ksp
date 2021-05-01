@@ -11,7 +11,7 @@ on init
 
     declare ui_knob $attack( 0, 1000000, 1 )
     move_control_px( $attack, 100, 20 )
-    set_text($attack, "Atk Lvl")
+    set_text($attack, "Atk Dmg")
     set_knob_unit( $attack, $KNOB_UNIT_MS )
     set_knob_defval( $attack, $startVal )
     $attack := get_engine_par( $ENGINE_PAR_ATTACK, 0, 0, -1 )
@@ -29,7 +29,7 @@ on init
 
     declare ui_knob $sustain(0, 1000000, 1)
     move_control_px( $sustain, 300, 20 )
-    set_text($sustain, "Sus Lvl")
+    set_text($sustain, "You Sus?")
     set_knob_unit( $sustain, $KNOB_UNIT_MS )
     set_knob_defval( $sustain, $startVal )
     $sustain := get_engine_par($ENGINE_PAR_SUSTAIN, 0 ,0 ,-1)
@@ -53,16 +53,25 @@ on init
     set_knob_label( $reverb, get_engine_par_disp( $ENGINE_PAR_RV2_TIME, 0, 0, 1 ) )
     make_persistent( $reverb )
 
+    declare ui_knob $distortion( 0, 1000000, 1 )
+    move_control_px( $distortion, 275, 70 )
+    set_text($distortion, "Distorted")
+    set_knob_unit( $distortion, $KNOB_UNIT_DB )
+    set_knob_defval( $distortion, 0 )
+    set_knob_label( $distortion, get_engine_par_disp( $ENGINE_PAR_DRIVE, 0, 1, 1 ) )
+    make_persistent( $distortion )
+
+    declare ui_knob $delay( 0, 1000000, 1 )
+    move_control_px( $delay, 375, 70 )
+    set_text( $delay, "EcH0 eChO" )
+    set_knob_unit( $delay, $KNOB_UNIT_MS )
+    set_knob_defval( $delay, 0 )
+    set_knob_label( $delay, get_engine_par_disp( $ENGINE_PAR_RDL_TIME, 0, 0, 0 ) )
+    make_persistent( $delay )
 
 end on
 
-{ function setEngine
-    set_engine_par( $adsrType, $engineType, 0, 0, -1 )
-end function }
-
 on ui_control( $attack )
-    { $adsrType := $attack
-    $engineType := $ENGINE_PAR_ATTACK }
     set_engine_par( $ENGINE_PAR_ATTACK, $attack, 0, 0, -1 )
     set_knob_label( $attack, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ) )
 end on
@@ -86,6 +95,16 @@ on ui_control( $reverb )
     message($ENGINE_PAR_RV2_TIME)
     set_engine_par( $ENGINE_PAR_RV2_TIME, $reverb, -1, 0, 1 )
     set_knob_label( $reverb, get_engine_par_disp( $ENGINE_PAR_RV2_TIME, 0, 0, 1 ) )
+end on
+
+on ui_control( $distortion )
+    set_engine_par( $ENGINE_PAR_DRIVE, $distortion, -1, 1, 1 )
+    set_knob_label( $distortion, get_engine_par_disp( $ENGINE_PAR_DRIVE, 0, 1, 1 ) )
+end on
+
+on ui_control( $delay )
+    set_engine_par($ENGINE_PAR_RDL_TIME, $delay, -1, 0, 0)
+    set_knob_label( $delay,get_engine_par_disp( $ENGINE_PAR_RDL_TIME, 0, 0, 0) )
 end on
 
 on note

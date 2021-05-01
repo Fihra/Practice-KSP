@@ -6,6 +6,9 @@ on init
 
     declare $startVal := 1000000/2
 
+    declare ui_label $adsr( 250, 0 )
+    set_text( $adsr, "Wow, this is a such a long label to be used to show ADSR, I wanted to center this label and just have the title ADSR" )
+
     declare ui_knob $attack( 0, 1000000, 1 )
     move_control_px( $attack, 100, 20 )
     set_text($attack, "Atk Lvl")
@@ -33,9 +36,33 @@ on init
     set_knob_label( $sustain, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
     make_persistent( $sustain )
 
+    declare ui_knob $release( 0, 1000000, 1 )
+    move_control_px( $release, 400, 20 )
+    set_text( $release, "Rel Lvl" )
+    set_knob_unit( $release, $KNOB_UNIT_MS )
+    set_knob_defval( $release, $startVal )
+    $release := get_engine_par( $ENGINE_PAR_RELEASE, 0, 0, -1 )
+    set_knob_label( $release, get_engine_par_disp( $ENGINE_PAR_RELEASE, 0, 0, -1 ) )
+    make_persistent( $release )
+
+    declare ui_knob $reverb( 0, 1000000, 1 )
+    move_control_px( $reverb, 175, 70 )
+    set_text( $reverb, "Reverrrb" )
+    set_knob_unit( $reverb, $KNOB_UNIT_MS)
+    set_knob_defval( $reverb, 0 )
+    set_knob_label( $reverb, get_engine_par_disp( $ENGINE_PAR_RV2_TIME, 0, 0, 1 ) )
+    make_persistent( $reverb )
+
+
 end on
 
+{ function setEngine
+    set_engine_par( $adsrType, $engineType, 0, 0, -1 )
+end function }
+
 on ui_control( $attack )
+    { $adsrType := $attack
+    $engineType := $ENGINE_PAR_ATTACK }
     set_engine_par( $ENGINE_PAR_ATTACK, $attack, 0, 0, -1 )
     set_knob_label( $attack, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ) )
 end on
@@ -48,6 +75,17 @@ end on
 on ui_control( $sustain )
     set_engine_par( $ENGINE_PAR_SUSTAIN, $sustain, 0, 0, -1 )
     set_knob_label( $sustain, get_engine_par_disp( $ENGINE_PAR_SUSTAIN, 0, 0, -1 ) )
+end on
+
+on ui_control( $release )
+    set_engine_par( $ENGINE_PAR_RELEASE, $release, 0, 0, -1 )
+    set_knob_label( $release, get_engine_par_disp( $ENGINE_PAR_RELEASE, 0, 0, -1 ) )
+end on
+
+on ui_control( $reverb )
+    message($ENGINE_PAR_RV2_TIME)
+    set_engine_par( $ENGINE_PAR_RV2_TIME, $reverb, -1, 0, 1 )
+    set_knob_label( $reverb, get_engine_par_disp( $ENGINE_PAR_RV2_TIME, 0, 0, 1 ) )
 end on
 
 on note

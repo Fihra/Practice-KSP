@@ -2,9 +2,14 @@ on init
     make_perfview
     message( "" )
     set_script_title( "ADSR Test" )
-    set_ui_height_px( 125 )
+    set_ui_height_px( 200 )
+    set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "kontakt_BG" )
 
     declare $startVal := 1000000/2
+
+    { declare ui_waveform $waveForm( 5, 5 )
+    move_control_px( $waveForm, 50, 70 )
+    attach_zone( $waveForm, 0, 0 ) }
 
     declare ui_label $adsr( 250, 0 )
     set_text( $adsr, "Wow, this is a such a long label to be used to show ADSR, I wanted to center this label and just have the title ADSR" )
@@ -69,6 +74,22 @@ on init
     set_knob_label( $delay, get_engine_par_disp( $ENGINE_PAR_RDL_TIME, 0, 0, 0 ) )
     make_persistent( $delay )
 
+    declare ui_knob $phaserDepth( 0, 1000000, 1 )
+    move_control_px( $phaserDepth, 200, 120 )
+    set_text( $phaserDepth, "Phases" )
+    set_knob_unit( $phaserDepth, $KNOB_UNIT_DB )
+    set_knob_defval( $phaserDepth, 0 )
+    set_knob_label( $phaserDepth, get_engine_par_disp( $ENGINE_PAR_PH_DEPTH, 0, 2, 1 ) )
+    make_persistent( $phaserDepth )
+
+    declare ui_knob $phaserSpeed( 0, 1000000, 1 )
+    move_control_px( $phaserSpeed, 400, 120 )
+    set_text($phaserSpeed, "WOOoSh")
+    set_knob_unit( $phaserSpeed, $KNOB_UNIT_HZ )
+    set_knob_defval( $phaserSpeed, 0 )
+    set_knob_label( $phaserSpeed, get_engine_par_disp( $ENGINE_PAR_PH_SPEED, 0, 2, 1 ) )
+    make_persistent( $phaserSpeed )
+
 end on
 
 on ui_control( $attack )
@@ -105,6 +126,16 @@ end on
 on ui_control( $delay )
     set_engine_par($ENGINE_PAR_RDL_TIME, $delay, -1, 0, 0)
     set_knob_label( $delay,get_engine_par_disp( $ENGINE_PAR_RDL_TIME, 0, 0, 0) )
+end on
+
+on ui_control( $phaserDepth )
+    set_engine_par( $ENGINE_PAR_PH_DEPTH, $phaserDepth, -1, 2, 1 )
+    set_knob_label( $phaserDepth, get_engine_par_disp( $ENGINE_PAR_PH_DEPTH, 0, 2, 1 ) )
+end on
+
+on ui_control( $phaserSpeed )
+    set_engine_par( $ENGINE_PAR_PH_SPEED, $phaserSpeed, -1, 2, 1 )
+    set_knob_label( $phaserSpeed, get_engine_par_disp( $ENGINE_PAR_PH_SPEED, 0, 2, 1 ) )
 end on
 
 on note

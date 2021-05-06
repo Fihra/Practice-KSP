@@ -2,14 +2,19 @@ on init
     make_perfview
     message( "" )
     set_script_title( "ADSR Test" )
-    set_ui_height_px( 200 )
-    set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "kontakt_BG" )
+    set_ui_height_px( 750 )
+    set_ui_width_px(1000)
+    set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "Saranay_VST_wallpaper" )
+
+    declare ui_switch $switch
+    set_control_par_str(get_ui_id($switch), $CONTROL_PAR_PICTURE, "Saranay_buttons")
+    set_control_par(get_ui_id($switch), $CONTROL_PAR_WIDTH, 180)
+    set_control_par(get_ui_id($switch), $CONTROL_PAR_HEIGHT, 32)
+    move_control_px($switch, 100, 300)
+    set_text($switch, "")
+
 
     declare $startVal := 1000000/2
-
-    { declare ui_waveform $waveForm( 5, 5 )
-    move_control_px( $waveForm, 50, 70 )
-    attach_zone( $waveForm, 0, 0 ) }
 
     declare ui_label $adsr( 250, 0 )
     set_text( $adsr, "Wow, this is a such a long label to be used to show ADSR, I wanted to center this label and just have the title ADSR" )

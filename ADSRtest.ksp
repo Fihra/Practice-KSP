@@ -6,6 +6,9 @@ on init
     set_ui_width_px(1000)
     set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "Saranay_VST_wallpaper" )
 
+    declare $toggleNormal
+    $toggleNormal := 0
+
     declare ui_switch $switch
     set_control_par_str(get_ui_id($switch), $CONTROL_PAR_PICTURE, "Saranay_buttons")
     set_control_par(get_ui_id($switch), $CONTROL_PAR_WIDTH, 180)
@@ -13,6 +16,32 @@ on init
     move_control_px($switch, 100, 300)
     set_text($switch, "")
 
+    declare ui_switch $testSwitch
+    move_control_px($testSwitch, 100, 400)
+
+    declare ui_switch $testSwitch2
+    move_control_px($testSwitch2, 100, 450)
+    
+    declare ui_slider $testKnob( 0, 1000000)
+    make_persistent( $testKnob )
+    
+    declare $knobID
+    $knobID := get_ui_id( $testKnob )
+    set_control_par_str( $knobID, $CONTROL_PAR_PICTURE, "saranay_knob" )
+    set_control_par( $knobID, $CONTROL_PAR_WIDTH, 20 )
+    set_control_par( $knobID, $CONTROL_PAR_HEIGHT, 20 )
+    move_control_px($testKnob, 200,200)
+    set_control_par( $knobID, $CONTROL_PAR_MOUSE_BEHAVIOUR, -500 )
+
+    declare ui_slider $testKnob2( 0, 1000000)
+    make_persistent( $testKnob2 )
+
+    declare $knobID2
+    $knobID2 := get_ui_id( $testKnob2 )
+    set_control_par_str( $knobID2, $CONTROL_PAR_PICTURE, "saranay_knob" )
+    set_control_par( $knobID2, $CONTROL_PAR_WIDTH, 20 )
+    set_control_par( $knobID2, $CONTROL_PAR_HEIGHT, 20 )
+    move_control_px($testKnob2, 400,200)
 
     declare $startVal := 1000000/2
 
@@ -97,6 +126,25 @@ on init
 
 end on
 
+function HitNormal
+    message("Hitting Normal: " & $toggleNormal)
+end function
+
+function HitDouble
+    message("Hitting Doubles: " & $toggleNormal)
+end function
+
+on ui_control( $switch )
+    if($switch = 1)
+        $toggleNormal := 0
+        call HitNormal
+    end if
+    if($switch = 0)
+        $toggleNormal := 1
+        call HitDouble
+    end if
+end on
+
 on ui_control( $attack )
     set_engine_par( $ENGINE_PAR_ATTACK, $attack, 0, 0, -1 )
     set_knob_label( $attack, get_engine_par_disp( $ENGINE_PAR_ATTACK, 0, 0, -1 ) )
@@ -144,6 +192,17 @@ on ui_control( $phaserSpeed )
 end on
 
 on note
-    play_note($EVENT_NOTE+6, $EVENT_VELOCITY, 0, 0)
+    if($switch = 1)
+        play_note($EVENT_NOTE+6, $EVENT_VELOCITY, 0, 1)
+        { play_note($EVENT_NOTE+6, $EVENT_VELOCITY, 1, 0) }
+    else
+        play_note($EVENT_NOTE+6, $EVENT_VELOCITY, 0, 0)
+    end if
     { play_note($EVENT_NOTE+3, $EVENT_VELOCITY, 0, 0) }
 end on
+
+{ on release
+    if($switch = 1)
+        play_note($EVENT_NOTE, $EVENT_VELOCITY, 0, 0)
+    end if
+end on }

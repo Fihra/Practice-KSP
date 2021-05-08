@@ -2,9 +2,9 @@ on init
     make_perfview
     message( "" )
     set_script_title( "ADSR Test" )
-    set_ui_height_px( 750 )
-    set_ui_width_px(1000)
-    set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "Saranay_VST_wallpaper" )
+    set_ui_height_px( 550 )
+    set_ui_width_px(800)
+    set_control_par_str( $INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "Saranay_VST_wallpaper2" )
 
     declare $toggleNormal
     $toggleNormal := 0
@@ -27,18 +27,18 @@ on init
     
     declare $knobID
     $knobID := get_ui_id( $testKnob )
-    set_control_par_str( $knobID, $CONTROL_PAR_PICTURE, "saranay_knob" )
+    set_control_par_str( $knobID, $CONTROL_PAR_PICTURE, "saranay_knob2" )
     set_control_par( $knobID, $CONTROL_PAR_WIDTH, 20 )
     set_control_par( $knobID, $CONTROL_PAR_HEIGHT, 20 )
     move_control_px($testKnob, 200,200)
-    set_control_par( $knobID, $CONTROL_PAR_MOUSE_BEHAVIOUR, -500 )
+    set_control_par( $knobID, $CONTROL_PAR_MOUSE_BEHAVIOUR, -750 )
 
     declare ui_slider $testKnob2( 0, 1000000)
     make_persistent( $testKnob2 )
 
     declare $knobID2
     $knobID2 := get_ui_id( $testKnob2 )
-    set_control_par_str( $knobID2, $CONTROL_PAR_PICTURE, "saranay_knob" )
+    set_control_par_str( $knobID2, $CONTROL_PAR_PICTURE, "saranay_knob2" )
     set_control_par( $knobID2, $CONTROL_PAR_WIDTH, 20 )
     set_control_par( $knobID2, $CONTROL_PAR_HEIGHT, 20 )
     move_control_px($testKnob2, 400,200)
